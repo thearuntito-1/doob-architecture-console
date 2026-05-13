@@ -1,1 +1,290 @@
 
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOB | Infrastructure OS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Chosen Palette: Deep Obsidian (#000), Matte Carbon (#070707), Ghost White (#EDEDED), Restrained Violet (#7C3AED) -->
+<!-- Application Structure Plan: A highly differentiated, living Infrastructure OS. 'Orchestration Core' provides high-level system scale with mission-critical metric cards. 'Domain Matrix' shifts to flow visualization, mapping domains to the API Gateway. 'Execution Runtime' is highly dynamic, featuring simulated JS telemetry, degraded provider states, and queue spikes for ultimate realism. 'Visual Protocol' remains a calm, highly-spaced design reference. -->
+<!-- Motion & Visualization Strategy: Implements "Precision Motion." Ambient slow grid drift, smooth requestAnimationFrame number tweening for all metrics, fluid Chart.js updates, cubic-bezier OS tab transitions, and comet-tail data packet animations. No flashy bouncy effects, purely system-state routing realism. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://cdn.fontshare.com/wf/OTEXMTY5NEMzNEQ/7TXG/Satoshi-Bold.woff2') format('woff2');
+  font-weight: 700;
+}
+
+:root {
+  --doob-bg: #000000;
+  --doob-card: #060606;
+  --doob-card-hover: #0a0a0a;
+  --doob-border: rgba(255, 255, 255, 0.06);
+  --doob-text-primary: #ededed;
+  --doob-text-secondary: #999999;
+  --doob-text-muted: #555555;
+  --doob-glow: #7C3AED;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--doob-bg);
+  color: var(--doob-text-primary);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .brand-font { font-family: 'Satoshi', sans-serif; letter-spacing: -0.02em; }
+.mono-font { font-family: 'JetBrains Mono', monospace; }
+
+/* Cinematic Grid with Ambient Drift */
+@keyframes grid-drift {
+  0% { background-position: 0 0; }
+  100% { background-position: 32px 32px; }
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: -10;
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: grid-drift 40s linear infinite;
+}
+.vignette {
+  position: fixed; inset: 0; z-index: -9;
+  background: radial-gradient(circle at 50% 20%, transparent 5%, #000 85%);
+  pointer-events: none;
+}
+
+/* Premium Matte Cards & Restrained Hover */
+.matte-card {
+  background: var(--doob-card);
+  border: 1px solid var(--doob-border);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.03);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.4s ease, 
+              background 0.4s ease, 
+              box-shadow 0.4s ease;
+}
+.matte-card:hover { 
+  transform: translateY(-2px);
+  border-color: rgba(124, 58, 237, 0.15); /* Faint violet illumination */
+  background: var(--doob-card-hover); 
+  box-shadow: 0 24px 50px rgba(0,0,0,0.9), 0 0 20px rgba(124, 58, 237, 0.05), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* OS Page Transitions */
+@keyframes os-tab-enter {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: os-tab-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Shimmer Effect */
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.015), transparent);
+  animation: shimmer-anim 4s infinite linear;
+  pointer-events: none;
+}
+@keyframes shimmer-anim { 100% { left: 200%; } }
+
+/* Micro-Animations & Telemetry */
+.status-dot { width: 4px; height: 4px; border-radius: 50%; }
+.status-green { background-color: #10B981; box-shadow: 0 0 6px rgba(16,185,129,0.8); }
+.status-amber { background-color: #F59E0B; box-shadow: 0 0 6px rgba(245,158,11,0.8); }
+.status-red { background-color: #EF4444; box-shadow: 0 0 6px rgba(239,68,68,0.8); }
+
+.data-pulse { animation: blink-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes blink-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+.err-flicker { animation: flicker 3s infinite; }
+@keyframes flicker { 0%, 95%, 100% { opacity: 1; } 96%, 98% { opacity: 0.2; } 97%, 99% { opacity: 0.8; } }
+
+/* Topology Lines & Comet Data Packets */
+.tree-line-v { border-left: 1px solid #1a1a1a; position: relative; }
+.tree-line-h { border-top: 1px solid #1a1a1a; position: relative; }
+
+.packet-h {
+  position: absolute; top: -1px; left: 0; width: 16px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--doob-glow), #fff);
+  box-shadow: 0 0 4px var(--doob-glow);
+  animation: flow-h 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1); opacity: 0;
+}
+.packet-v {
+  position: absolute; top: 0; left: -1px; width: 1px; height: 16px;
+  background: linear-gradient(180deg, transparent, #10B981, #fff);
+  box-shadow: 0 0 4px #10B981;
+  animation: flow-v 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1); opacity: 0;
+}
+@keyframes flow-h { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@keyframes flow-v { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+/* Precision Navigation */
+.nav-container {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+  border-bottom: 1px solid var(--doob-border);
+}
+.tab-btn { position: relative; color: #666; padding: 1.25rem 0; transition: color 0.2s ease; }
+.tab-btn:hover { color: #aaa; }
+.tab-active { color: #fff; }
+.tab-active::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: #fff; box-shadow: 0 -2px 8px rgba(255,255,255,0.4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+.chart-container { position: relative; width: 100%; height: 180px; }
+</style>
+</head>
+<body class="antialiased selection:bg-white/10 selection:text-white pb-0">
+
+<div class="bg-grid"></div>
+<div class="vignette"></div>
+
+<!-- ========================================== -->
+<!-- AMBIENT TOP TELEMETRY BAR                  -->
+<!-- ========================================== -->
+<div class="w-full bg-[#020202] border-b border-[#111] px-4 py-1.5 flex justify-between items-center z-50 fixed top-0 text-[9px] mono-font text-[#555] tracking-widest uppercase">
+  <div class="flex items-center gap-6 overflow-hidden">
+    <div class="flex items-center gap-2">
+      <div class="status-dot status-green data-pulse"></div>
+      <span class="text-[#7a7a7a]">ORCHESTRATOR_IDLE</span>
+    </div>
+    <span class="hidden md:inline border-l border-[#1a1a1a] pl-6"><span id="tel-workers" class="text-[#888]">128</span> WKR_ALIVE</span>
+    <span class="hidden sm:inline border-l border-[#1a1a1a] pl-6 flex items-center gap-2">
+      <div class="w-1 h-1 bg-[#10B981] rounded-full"></div> IDEMPOTENT_LOCKS
+    </span>
+    <span class="hidden lg:inline border-l border-[#1a1a1a] pl-6">INGRESS: <span id="tel-qps">1,402</span>/s</span>
+  </div>
+  <div class="flex gap-6 shrink-0">
+    <span id="live-time" class="text-[#888]">00:00:00 UTC</span>
+    <span class="border-l border-[#1a1a1a] pl-6 text-[#7C3AED] opacity-90 data-pulse">NODE::BLR-01</span>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MAIN NAVIGATION                            -->
+<!-- ========================================== -->
+<header class="nav-container sticky top-[25px] z-40 w-full">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col md:flex-row md:items-center md:gap-16">
+    <div class="flex items-center gap-3 py-4 md:py-0 pr-8 border-r border-[#1a1a1a]">
+      <span class="brand-font text-[#ededed] font-bold text-xl leading-none tracking-tight">DOOB</span>
+    </div>
+    
+    <nav class="flex overflow-x-auto hide-scrollbar space-x-10 text-[10px] font-medium tracking-widest uppercase w-full">
+      <button onclick="switchTab('core')" id="tab-core" class="tab-btn tab-active whitespace-nowrap">Orchestration Core</button>
+      <button onclick="switchTab('domains')" id="tab-domains" class="tab-btn whitespace-nowrap">Domain Matrix</button>
+      <button onclick="switchTab('runtime')" id="tab-runtime" class="tab-btn whitespace-nowrap relative">
+        Execution Runtime
+        <div class="absolute top-4 -right-2 w-1 h-1 rounded-full bg-[#10B981] data-pulse hidden" id="runtime-alert"></div>
+      </button>
+      <button onclick="switchTab('design')" id="tab-design" class="tab-btn whitespace-nowrap">Visual Protocol</button>
+    </nav>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
+
+  <!-- ========================================== -->
+  <!-- TAB 1: ORCHESTRATION CORE                  -->
+  <!-- ========================================== -->
+  <section id="section-core" class="block animate-fade-in space-y-12">
+    
+    <!-- Ecosystem Scale Mission Critical Metrics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+      
+      <!-- Metric 1 -->
+      <div class="matte-card p-6 relative overflow-hidden shimmer flex flex-col justify-between h-[140px]">
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">QUEUED_EXEC_24H</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">BLR-01</span>
+        </div>
+        <div class="mono-font text-3xl text-white font-medium">2.4<span class="text-sm text-[#7a7a7a]">M</span></div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <div class="status-dot status-green data-pulse"></div>
+             <span class="text-[8px] text-[#555] mono-font uppercase">Throughput Optimal</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
+
+      <!-- Metric 2 -->
+      <div class="matte-card p-6 relative flex flex-col justify-between h-[140px]">
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">CONNECTED_PROVIDERS</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">FABRIC</span>
+        </div>
+        <div class="mono-font text-3xl text-white font-medium"><span id="scale-providers">148</span></div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <div class="status-dot status-amber"></div>
+             <span class="text-[8px] text-[#F59E0B] mono-font uppercase">2 Degraded</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
+
+      <!-- Metric 3 -->
+      <div class="matte-card p-6 relative flex flex-col justify-between h-[140px]">
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">AVG_DISPATCH_LATENCY</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">GLOBAL</span>
+        </div>
+        <div class="mono-font text-3xl text-white font-medium flex items-end gap-1">
+          <span id="scale-latency">182</span><span class="text-sm text-[#7a7a7a] pb-1">ms</span>
+        </div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <div class="w-1.5 h-1.5 bg-[#7C3AED] rounded-full"></div>
+             <span class="text-[8px] text-[#555] mono-font uppercase">Stable Path</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
+
+      <!-- Metric 4: Anomaly -->
+      <div class="matte-card p-6 relative overflow-hidden flex flex-col justify-between h-[140px] border-b-2 border-b-[#10B981]">
+        <div class="absolute top-0 right-0 w-16 h-16 bg-[#10B981] opacity-[0.03] rounded-bl-full"></div>
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">LEDGER_RECONCILIATION</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">CRITICAL</span>
+        </div>
+        <div class="mono-font text-3xl text-[#10B981] font-medium" id="reconcile-val">100<span class="text-sm text-[#10B981]/50">.00%</span></div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <span class="text-[8px] text-[#555] mono-font uppercase" id="reconcile-text">Zero Drift</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Architectural Directives -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-8 matte-card p-10 flex flex-col justify-center">
+        <div class="flex items-center justify-between border-b border-[#111] pb-5 mb-8">
+          <h3 class="mono-font text-[10px] font-medium text-[#7a7a7a] uppercase tracking-widest">Architectural Directives</h3>
+          <span class="mono-font text-[8px] text-[#444]">SYS_CORE_DOCS</span>
+        </div>
+        
+        <ul class="space-y-10">
+          <li class="flex items-start gap-6">
+            <span class="mono-font text-[10px] text-[#3
