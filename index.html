@@ -1,170 +1,1059 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DOOB | Infrastructure OS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOB | Infrastructure OS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Application Structure Plan: A highly differentiated, living Infrastructure OS implementing the strict DOOB Kinetics system. Features a terminal boot sequence, ambient grid drift, easing numeric interpolation, and restrained environment transitions. The UI acts as a telemetry window into the backend orchestration engine. -->
+<!-- Visualization & Content Choices: Pure HTML/CSS for all diagrams (NO SVG). Data flows are animated div packets. Real-time Chart.js queue throughput. Fluid numeric ticking. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://cdn.fontshare.com/wf/OTEXMTY5NEMzNEQ/7TXG/Satoshi-Bold.woff2') format('woff2');
+  font-weight: 700;
+}
 
-  <link rel="stylesheet" href="style.css">
+:root {
+  --doob-bg: #000000;
+  --doob-card: #050505;
+  --doob-card-hover: #080808;
+  --doob-border: rgba(255, 255, 255, 0.05);
+  --doob-border-hover: rgba(255, 255, 255, 0.12);
+  --doob-text-primary: #ededed;
+  --doob-text-secondary: #888888;
+  --doob-glow: #7C3AED;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--doob-bg);
+  color: var(--doob-text-primary);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .brand-font { font-family: 'Satoshi', sans-serif; letter-spacing: -0.02em; }
+.mono-font { font-family: 'JetBrains Mono', monospace; }
+
+/* 1. Ambient Grid Movement (Slow, infinite, subtle drift) */
+.bg-grid {
+  position: fixed; inset: 0; z-index: -10;
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: grid-drift 60s linear infinite;
+}
+@keyframes grid-drift {
+  0% { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-32px) translateX(-32px); }
+}
+
+.vignette {
+  position: fixed; inset: 0; z-index: -9;
+  background: radial-gradient(circle at 50% 25%, transparent 10%, #000 85%);
+  pointer-events: none;
+}
+
+/* 2. Environment Switch Transition (Fast fade + slight upward motion) */
+.env-switch {
+  animation: env-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes env-fade-up {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. Restrained Card Kinetics (No scaling) */
+.matte-card {
+  background: var(--doob-card);
+  border: 1px solid var(--doob-border);
+  border-radius: 8px;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+  transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: none !important;
+}
+.matte-card:hover { 
+  border-color: var(--doob-border-hover); 
+  background: var(--doob-card-hover);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* 4. Telemetry Pulses & Micro-realism */
+.status-dot { width: 5px; height: 5px; border-radius: 50%; }
+.status-green { background-color: #10B981; box-shadow: 0 0 6px rgba(16,185,129,0.8); }
+.status-amber { background-color: #F59E0B; box-shadow: 0 0 6px rgba(245,158,11,0.8); }
+.status-red { background-color: #EF4444; box-shadow: 0 0 6px rgba(239,68,68,0.8); }
+
+.data-pulse { animation: blink-soft 2.5s infinite ease-in-out; }
+@keyframes blink-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.err-flicker { animation: flicker 4s infinite; }
+@keyframes flicker { 0%, 95%, 100% { opacity: 1; } 96%, 98% { opacity: 0.2; } 97%, 99% { opacity: 0.8; } }
+
+/* 5. Routing Trajectories (CSS Packets) */
+.tree-line-v { border-left: 1px solid #1a1a1a; position: relative; }
+.tree-line-h { border-top: 1px solid #1a1a1a; position: relative; }
+
+.packet-h {
+  position: absolute; top: -1px; left: 0; width: 8px; height: 1px;
+  background: var(--doob-glow); box-shadow: 0 0 6px var(--doob-glow);
+  animation: flow-h 3s infinite linear; opacity: 0;
+}
+.packet-v {
+  position: absolute; top: 0; left: -1px; width: 1px; height: 8px;
+  background: #10B981; box-shadow: 0 0 6px #10B981;
+  animation: flow-v 3.5s infinite linear; opacity: 0;
+}
+@keyframes flow-h { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@keyframes flow-v { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+/* Navigation */
+.nav-container {
+  background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--doob-border);
+}
+.tab-btn { position: relative; color: #666; padding: 1.25rem 0; transition: color 0.2s ease; }
+.tab-btn:hover { color: #aaa; }
+.tab-active { color: #fff; }
+.tab-active::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: #fff; box-shadow: 0 -2px 8px rgba(255,255,255,0.4);
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+.chart-container { position: relative; width: 100%; height: 160px; }
+
+/* Boot Sequence Overlay */
+#boot-overlay {
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+</style>
 </head>
-
 <body class="antialiased selection:bg-white/10 selection:text-white pb-0 overflow-hidden">
 
-  <div id="boot-overlay" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center pointer-events-none">
-    <div class="w-[300px] text-left mono-font text-[10px] text-[#555] space-y-1.5" id="boot-text">
-      <div class="text-[#7a7a7a]">> DOOB_OS BOOTSTRAP_ENV</div>
-    </div>
+<!-- 6. Terminal Boot Sequence -->
+<div id="boot-overlay" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center pointer-events-none">
+  <div class="w-[300px] text-left mono-font text-[10px] text-[#555] space-y-1.5" id="boot-text">
+    <div class="text-[#7a7a7a]">> DOOB_OS BOOTSTRAP_ENV</div>
   </div>
+</div>
 
-  <div class="bg-grid"></div>
-  <div class="vignette"></div>
+<div class="bg-grid"></div>
+<div class="vignette"></div>
 
-  <div class="w-full bg-[#020202] border-b border-[#111] px-4 py-1.5 flex justify-between items-center z-50 fixed top-0 text-[9px] mono-font text-[#555] tracking-widest uppercase transition-opacity duration-1000 opacity-0" id="top-bar">
-    <div class="flex items-center gap-6 overflow-hidden">
-      <div class="flex items-center gap-2">
-        <div class="status-dot status-green data-pulse"></div>
-        <span class="text-[#888]">ORCHESTRATOR_IDLE</span>
-      </div>
+<!-- AMBIENT TOP TELEMETRY BAR -->
+<div class="w-full bg-[#020202] border-b border-[#111] px-4 py-1.5 flex justify-between items-center z-50 fixed top-0 text-[9px] mono-font text-[#555] tracking-widest uppercase transition-opacity duration-1000 opacity-0" id="top-bar">
+  <div class="flex items-center gap-6 overflow-hidden">
+    <div class="flex items-center gap-2">
+      <div class="status-dot status-green data-pulse"></div>
+      <span class="text-[#888]">ORCHESTRATOR_IDLE</span>
     </div>
-
-    <div class="flex gap-6 shrink-0">
-      <span id="live-time" class="text-[#888]">00:00:00 UTC</span>
-      <span class="border-l border-[#1a1a1a] pl-6 text-[#7C3AED]">NODE::BLR-01</span>
-    </div>
+    <span class="hidden md:inline border-l border-[#1a1a1a] pl-6"><span id="tel-workers" class="text-[#aaa]">128</span> WKR_ALIVE</span>
+    <span class="hidden sm:inline border-l border-[#1a1a1a] pl-6 flex items-center gap-2">
+      <div class="w-1 h-1 bg-[#10B981] rounded-full"></div> IDEMPOTENT_LOCKS
+    </span>
+    <span class="hidden lg:inline border-l border-[#1a1a1a] pl-6">INGRESS: <span id="tel-qps" class="text-[#aaa]">1,402</span>/s</span>
   </div>
+  <div class="flex gap-6 shrink-0">
+    <span id="live-time" class="text-[#888]">00:00:00 UTC</span>
+    <span class="border-l border-[#1a1a1a] pl-6 text-[#7C3AED]">NODE::BLR-01</span>
+  </div>
+</div>
 
-  <header class="nav-container sticky top-[25px] z-40 w-full opacity-0 translate-y-2 transition-all duration-700" id="main-nav">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col md:flex-row md:items-center md:gap-16">
-
-      <div class="flex items-center gap-3 py-4 md:py-0 pr-8 border-r border-[#1a1a1a]">
-        <span class="brand-font text-[#ededed] font-bold text-xl leading-none tracking-tight">DOOB</span>
-      </div>
-
-      <nav class="flex overflow-x-auto hide-scrollbar space-x-10 text-[10px] font-medium tracking-widest uppercase w-full">
-        <button onclick="switchTab('core')" id="tab-core" class="tab-btn tab-active whitespace-nowrap">
-          Orchestration Core
-        </button>
-
-        <button onclick="switchTab('domains')" id="tab-domains" class="tab-btn whitespace-nowrap">
-          Domain Matrix
-        </button>
-
-        <button onclick="switchTab('runtime')" id="tab-runtime" class="tab-btn whitespace-nowrap">
-          Execution Runtime
-        </button>
-
-        <button onclick="switchTab('design')" id="tab-design" class="tab-btn whitespace-nowrap">
-          Visual Protocol
-        </button>
-      </nav>
+<!-- MAIN NAVIGATION -->
+<header class="nav-container sticky top-[25px] z-40 w-full opacity-0 translate-y-2 transition-all duration-700" id="main-nav">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col md:flex-row md:items-center md:gap-16">
+    <div class="flex items-center gap-3 py-4 md:py-0 pr-8 border-r border-[#1a1a1a]">
+      <span class="brand-font text-[#ededed] font-bold text-xl leading-none tracking-tight">DOOB</span>
     </div>
-  </header>
+    
+    <nav class="flex overflow-x-auto hide-scrollbar space-x-10 text-[10px] font-medium tracking-widest uppercase w-full">
+      <button onclick="switchTab('core')" id="tab-core" class="tab-btn tab-active whitespace-nowrap">Orchestration Core</button>
+      <button onclick="switchTab('domains')" id="tab-domains" class="tab-btn whitespace-nowrap">Domain Matrix</button>
+      <button onclick="switchTab('runtime')" id="tab-runtime" class="tab-btn whitespace-nowrap relative">
+        Execution Runtime
+        <div class="absolute top-4 -right-2 w-1 h-1 rounded-full bg-[#F59E0B] data-pulse hidden" id="runtime-alert"></div>
+      </button>
+      <button onclick="switchTab('design')" id="tab-design" class="tab-btn whitespace-nowrap">Visual Protocol</button>
+    </nav>
+  </div>
+</header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 mt-16 opacity-0 transition-opacity duration-1000" id="main-content">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 mt-16 opacity-0 transition-opacity duration-1000" id="main-content">
 
-    <section id="section-core" class="block env-switch space-y-10 mt-8">
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <div class="matte-card p-6 h-[150px]">
-          <span class="mono-font text-[9px] text-[#666]">QUEUED_EXEC_24H</span>
-
-          <div class="mono-font text-3xl text-white mt-6">
-            2.412M
-          </div>
+  <!-- ========================================== -->
+  <!-- TAB 1: ORCHESTRATION CORE                  -->
+  <!-- ========================================== -->
+  <section id="section-core" class="block env-switch space-y-10">
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+      
+      <!-- Metric Cards with fluid transitions -->
+      <div class="matte-card p-6 relative flex flex-col justify-between h-[150px]">
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">QUEUED_EXEC_24H</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">BLR-01</span>
         </div>
-
-        <div class="matte-card p-6 h-[150px]">
-          <span class="mono-font text-[9px] text-[#666]">CONNECTED_PROVIDERS</span>
-
-          <div class="mono-font text-3xl text-white mt-6">
-            148
-          </div>
+        <div class="mono-font text-3xl text-white font-medium flex items-end gap-1">
+          2.<span id="scale-exec">412</span><span class="text-sm text-[#7a7a7a] pb-1">M</span>
         </div>
-
-        <div class="matte-card p-6 h-[150px]">
-          <span class="mono-font text-[9px] text-[#666]">AVG_DISPATCH_LATENCY</span>
-
-          <div class="mono-font text-3xl text-white mt-6">
-            182ms
-          </div>
-        </div>
-
-        <div class="matte-card p-6 h-[150px] border-b-2 border-b-[#10B981]">
-          <span class="mono-font text-[9px] text-[#666]">LEDGER_RECONCILIATION</span>
-
-          <div class="mono-font text-3xl text-[#10B981] mt-6">
-            100%
-          </div>
-        </div>
-
-      </div>
-
-      <div class="matte-card p-10">
-        <h3 class="mono-font text-[10px] text-[#777] uppercase tracking-widest mb-8">
-          Architectural Directives
-        </h3>
-
-        <div class="space-y-8">
-
-          <div>
-            <h4 class="text-white text-sm mb-2">
-              State Reconciliation & Ledger Integrity
-            </h4>
-
-            <p class="text-[#777] text-sm leading-relaxed">
-              Financial safety supersedes execution speed.
-            </p>
-          </div>
-
-          <div>
-            <h4 class="text-white text-sm mb-2">
-              Idempotent Execution Queues
-            </h4>
-
-            <p class="text-[#777] text-sm leading-relaxed">
-              Replay protection and rate limited dispatch architecture.
-            </p>
-          </div>
-
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <div class="status-dot status-green data-pulse"></div>
+             <span class="text-[8px] text-[#555] mono-font uppercase">Throughput Optimal</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
         </div>
       </div>
 
-    </section>
+      <div class="matte-card p-6 relative flex flex-col justify-between h-[150px]">
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">CONNECTED_PROVIDERS</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">FABRIC</span>
+        </div>
+        <div class="mono-font text-3xl text-white font-medium" id="scale-providers">148</div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <div class="status-dot status-amber data-pulse" id="scale-prov-dot"></div>
+             <span class="text-[8px] text-[#F59E0B] mono-font uppercase" id="scale-prov-state">2 Degraded</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
 
-  </main>
+      <div class="matte-card p-6 relative flex flex-col justify-between h-[150px]">
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">AVG_DISPATCH_LATENCY</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">GLOBAL</span>
+        </div>
+        <div class="mono-font text-3xl text-white font-medium flex items-end gap-1">
+          <span id="scale-latency">182</span><span class="text-sm text-[#7a7a7a] pb-1">ms</span>
+        </div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <div class="w-1.5 h-1.5 bg-[#7C3AED] rounded-full"></div>
+             <span class="text-[8px] text-[#555] mono-font uppercase">Stable Path</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
 
-  <footer class="border-t border-[#1a1a1a] bg-[#020202] relative z-20 mt-20 pt-16 pb-12 opacity-0 transition-opacity duration-1000" id="main-footer">
+      <div class="matte-card p-6 relative flex flex-col justify-between h-[150px] border-b-2 border-b-[#10B981]">
+        <div class="absolute top-0 right-0 w-16 h-16 bg-[#10B981] opacity-[0.02] rounded-bl-full pointer-events-none"></div>
+        <div class="flex justify-between items-start mb-2">
+           <span class="mono-font text-[9px] text-[#666]">LEDGER_RECONCILIATION</span>
+           <span class="mono-font text-[8px] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 rounded">CRITICAL</span>
+        </div>
+        <div class="mono-font text-3xl text-[#10B981] font-medium" id="reconcile-val">100<span class="text-sm text-[#10B981]/50">.00%</span></div>
+        <div class="flex items-center justify-between border-t border-[#111] pt-3 mt-4">
+           <div class="flex items-center gap-2">
+             <span class="text-[8px] text-[#555] mono-font uppercase" id="reconcile-text">Zero Drift</span>
+           </div>
+           <span class="text-[8px] text-[#444] mono-font sync-timer">0s ago</span>
+        </div>
+      </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    </div>
 
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-8 matte-card p-10 flex flex-col justify-center">
+        <div class="flex items-center justify-between border-b border-[#111] pb-5 mb-8">
+          <h3 class="mono-font text-[10px] font-medium text-[#7a7a7a] uppercase tracking-widest">Architectural Directives</h3>
+          <span class="mono-font text-[8px] text-[#444]">SYS_CORE_DOCS</span>
+        </div>
+        
+        <ul class="space-y-10">
+          <li class="flex items-start gap-6">
+            <span class="mono-font text-[10px] text-[#333] mt-0.5 border border-[#1a1a1a] px-1.5 rounded">01</span>
+            <div>
+              <strong class="block text-[#ededed] text-sm font-medium mb-2 tracking-wide">State Reconciliation & Ledger Integrity</strong>
+              <span class="text-[13px] text-[var(--doob-text-secondary)] font-light leading-relaxed block max-w-3xl">Wallet logic, strict holds, and double-spend prevention dictate all state mutations. Financial safety supersedes execution speed. An operation without a ledger lock is an invalid operation.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-6">
+            <span class="mono-font text-[10px] text-[#333] mt-0.5 border border-[#1a1a1a] px-1.5 rounded">02</span>
+            <div>
+              <strong class="block text-[#ededed] text-sm font-medium mb-2 tracking-wide">Idempotent Execution Queues</strong>
+              <span class="text-[13px] text-[var(--doob-text-secondary)] font-light leading-relaxed block max-w-3xl">Distributed queue workers execute payloads safely. Replay protection and rate-limited dispatch prevent provider saturation and ensure external API limits are respected automatically.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-6">
+            <span class="mono-font text-[10px] text-[#333] mt-0.5 border border-[#1a1a1a] px-1.5 rounded">03</span>
+            <div>
+              <strong class="block text-[#ededed] text-sm font-medium mb-2 tracking-wide">Complexity Abstraction</strong>
+              <span class="text-[13px] text-[var(--doob-text-secondary)] font-light leading-relaxed block max-w-3xl">Raw SMM orchestration is strictly isolated to the backend. The public ingress surface is presented as a high-end, Stripe-caliber SaaS environment. Users see 'Campaigns', we process 'Provider Jobs'.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-        <p class="text-[#555] text-[11px] font-light italic border-l-2 border-[#222] pl-3">
-          "Abstracting creator growth infrastructure into a resilient orchestration layer."
+      <div class="lg:col-span-4 matte-card p-10 bg-[#020202]">
+        <h3 class="mono-font text-[10px] font-medium text-[#555] uppercase tracking-widest mb-10">Ingress Trajectories</h3>
+        
+        <div class="relative pl-4 border-l border-[#1a1a1a] space-y-8">
+          <div class="packet-v"></div> 
+          
+          <div class="relative">
+            <div class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-[#111] border border-[#333]"></div>
+            <p class="mono-font text-[11px] text-[#ededed]">API Gateway</p>
+            <p class="text-[10px] text-[#666] mt-1 font-light">Validates ingress auth.</p>
+          </div>
+          
+          <div class="relative">
+            <div class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-[#111] border border-[#F59E0B]"></div>
+            <p class="mono-font text-[11px] text-[#ededed]">Ledger Engine</p>
+            <p class="text-[10px] text-[#666] mt-1 font-light">Acquires balance lock.</p>
+          </div>
+
+          <div class="relative">
+            <div class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-[#111] border border-[#7C3AED]"></div>
+            <p class="mono-font text-[11px] text-[#ededed]">Dispatch Queue</p>
+            <p class="text-[10px] text-[#666] mt-1 font-light">Stages async payload.</p>
+          </div>
+
+          <div class="relative">
+            <div class="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_8px_rgba(16,185,129,0.3)] data-pulse"></div>
+            <p class="mono-font text-[11px] text-[#10B981]">Smart Router</p>
+            <p class="text-[10px] text-[#666] mt-1 font-light">Selects optimal node.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TAB 2: DOMAIN MATRIX                       -->
+  <!-- ========================================== -->
+  <section id="section-domains" class="hidden env-switch space-y-8 mt-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <div class="lg:col-span-4 space-y-3 flex flex-col">
+        <div id="card-public" onclick="selectDomain('public')" class="domain-card active p-5 cursor-pointer relative transition-all rounded-md bg-[#080808] border border-[#222]">
+          <div class="indicator absolute left-0 top-0 bottom-0 w-[2px] bg-white"></div>
+          <h4 class="font-medium text-[13px] text-[#ededed] ml-2">Public SaaS</h4>
+          <p class="text-[10px] text-[#666] font-mono mt-1.5 ml-2">doob.cloud</p>
+        </div>
+        <div id="card-reseller" onclick="selectDomain('reseller')" class="domain-card p-5 cursor-pointer relative transition-all rounded-md hover:bg-[#080808] border border-transparent">
+          <div class="indicator absolute left-0 top-0 bottom-0 w-[2px] bg-transparent"></div>
+          <h4 class="font-medium text-[13px] text-[#888] ml-2">Reseller Infra</h4>
+          <p class="text-[10px] text-[#555] font-mono mt-1.5 ml-2">partners.doob.cloud</p>
+        </div>
+        <div id="card-admin" onclick="selectDomain('admin')" class="domain-card p-5 cursor-pointer relative transition-all rounded-md hover:bg-[#080808] border border-transparent">
+          <div class="indicator absolute left-0 top-0 bottom-0 w-[2px] bg-transparent"></div>
+          <h4 class="font-medium text-[13px] text-[#888] ml-2">Admin Control</h4>
+          <p class="text-[10px] text-[#555] font-mono mt-1.5 ml-2">admin.doob.cloud</p>
+        </div>
+        <div id="card-api" onclick="selectDomain('api')" class="domain-card p-5 cursor-pointer relative transition-all rounded-md hover:bg-[#080808] border border-transparent">
+          <div class="indicator absolute left-0 top-0 bottom-0 w-[2px] bg-transparent"></div>
+          <h4 class="font-medium text-[13px] text-[#888] ml-2">API Layer</h4>
+          <p class="text-[10px] text-[#555] font-mono mt-1.5 ml-2">api.doob.cloud</p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-8 matte-card p-10 flex flex-col relative overflow-hidden">
+        
+        <div class="absolute right-0 top-0 bottom-0 w-1/2 opacity-[0.02] pointer-events-none flex flex-col justify-center gap-8 pl-20 border-l border-[#fff]">
+           <div class="h-[1px] w-full bg-[#fff]"></div>
+           <div class="h-[1px] w-full bg-[#fff]"></div>
+           <div class="h-[1px] w-full bg-[#fff]"></div>
+        </div>
+
+        <div class="flex justify-between items-start mb-10 pb-6 border-b border-[#111] relative z-10">
+          <div>
+            <h3 id="detail-title" class="text-2xl font-medium text-white mb-2 brand-font">Public SaaS</h3>
+            <p id="detail-url" class="mono-font text-[10px] text-[#7C3AED]">https://doob.cloud</p>
+          </div>
+          <div class="text-right space-y-2">
+            <span class="mono-font text-[9px] text-[#555] border border-[#222] bg-[#050505] px-2 py-1 rounded block w-32">RATE: <span id="detail-rate" class="text-[#888]">100/min</span></span>
+            <span class="mono-font text-[9px] text-[#555] border border-[#222] bg-[#050505] px-2 py-1 rounded block w-32">AUTH: <span id="detail-auth" class="text-[#888]">Sanctum</span></span>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-10 relative z-10">
+          <div>
+            <h5 class="mono-font text-[9px] text-[#555] mb-3 uppercase">Target_Audience</h5>
+            <p id="detail-audience" class="text-[#888] text-[13px] font-light leading-relaxed">Creators, artists, influencers, brands, and traditional businesses.</p>
+          </div>
+          <div>
+            <h5 class="mono-font text-[9px] text-[#555] mb-3 uppercase">Isolated_Terminology</h5>
+            <div id="detail-terms" class="flex flex-wrap gap-2">
+              <span class="bg-[#000] border border-[#222] px-3 py-1.5 rounded text-[10px] text-[#7a7a7a] mono-font">Campaigns</span>
+              <span class="bg-[#000] border border-[#222] px-3 py-1.5 rounded text-[10px] text-[#7a7a7a] mono-font">Growth Boosts</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-[#020202] border border-[#1a1a1a] rounded p-6 mb-8 relative z-10 border-l-2 border-l-[#7C3AED]">
+          <h5 class="mono-font text-[9px] text-[#555] mb-2 uppercase">Environment_Focus</h5>
+          <p id="detail-vibe" class="text-[#999] text-[13px] font-light leading-relaxed">Premium creator growth OS. High whitespace, beautiful campaign flows, big analytics charts. Clean and simple.</p>
+        </div>
+
+        <div class="mt-auto border border-[#111] bg-[#040404] rounded p-6 relative z-10">
+           <h5 class="mono-font text-[9px] text-[#555] mb-6 uppercase">Request_Routing</h5>
+           <div class="flex items-center justify-between text-center relative">
+              <div class="absolute top-1/2 left-10 right-10 h-[1px] bg-[#222] -translate-y-1/2 z-0">
+                 <div class="packet-h"></div>
+              </div>
+              <div class="relative z-10 bg-[#000] border border-[#333] px-3 py-2 rounded text-[10px] mono-font text-[#ededed]">
+                <span id="traj-origin" class="text-[#7C3AED]">doob.cloud</span>
+              </div>
+              <div class="relative z-10 bg-[#000] border border-[#333] px-3 py-2 rounded text-[10px] mono-font text-[#ccc]">
+                API Gateway
+              </div>
+              <div class="relative z-10 bg-[#000] border border-[#10B981]/50 px-3 py-2 rounded text-[10px] mono-font text-[#10B981]">
+                Core Engine
+              </div>
+           </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TAB 3: EXECUTION RUNTIME (Heavy Telemetry) -->
+  <!-- ========================================== -->
+  <section id="section-runtime" class="hidden env-switch space-y-6">
+    
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-8">
+      
+      <!-- Queue Monitor -->
+      <div class="matte-card p-8 xl:col-span-2 border-t-2 border-t-[#3B82F6] flex flex-col">
+        <div class="flex justify-between items-center mb-6 border-b border-[#111] pb-4">
+          <h3 class="mono-font text-[10px] text-[#7a7a7a] tracking-widest uppercase">Queue_Throughput_Monitor</h3>
+          <div class="flex items-center gap-3">
+             <span id="queue-warn" class="hidden mono-font text-[9px] text-[#F59E0B] bg-[#F59E0B]/10 px-2 py-0.5 rounded err-flicker">SATURATION_WARN</span>
+             <span class="mono-font text-[9px] text-[#3B82F6] bg-[#3B82F6]/10 px-2 py-0.5 rounded">WORKERS: SCALED</span>
+          </div>
+        </div>
+        
+        <div class="flex-grow w-full h-[180px] mb-6 relative">
+          <div class="absolute inset-0 border-b border-l border-[#111] pointer-events-none"></div>
+          <canvas id="queueChart"></canvas>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-6 pt-5 border-t border-[#1a1a1a]">
+          <div>
+            <span class="block text-[9px] text-[#555] mono-font mb-1 uppercase">Pending_Payloads</span>
+            <span class="text-xl text-[#ededed] mono-font font-medium" id="q-pending">1,204</span>
+          </div>
+          <div>
+            <span class="block text-[9px] text-[#555] mono-font mb-1 uppercase">Active_Processing</span>
+            <span class="text-xl text-[#ededed] mono-font font-medium" id="q-processing">128</span>
+          </div>
+          <div>
+            <span class="block text-[9px] text-[#555] mono-font mb-1 uppercase">Failed_Retries</span>
+            <span class="text-xl text-[#EF4444] mono-font font-medium" id="q-failed">4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ledger State -->
+      <div class="matte-card p-8 border-t-2 border-t-[#F59E0B] flex flex-col">
+        <div class="flex justify-between items-center mb-6 border-b border-[#111] pb-4">
+          <h3 class="mono-font text-[10px] text-[#7a7a7a] tracking-widest uppercase">Wallet_Ledger</h3>
+          <div class="status-dot status-amber data-pulse"></div>
+        </div>
+        <div class="space-y-6 mb-auto">
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] text-[#888] font-light">Active Hold Locks</span>
+            <span class="mono-font text-sm text-[#ededed]" id="run-holds">142</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] text-[#888] font-light">Double-Spend Blocks</span>
+            <span class="mono-font text-sm text-[#ededed]">0</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] text-[#888] font-light">Webhook Lag</span>
+            <span class="mono-font text-sm text-[#F59E0B]"><span id="wh-lag">12</span>ms</span>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-[#1a1a1a]">
+           <p class="text-[11px] text-[#666] font-light leading-relaxed">
+             Strict financial isolation layer. Orders require DB row-lock prior to orchestration.
+           </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      
+      <!-- Provider Fabric -->
+      <div class="matte-card p-8 xl:col-span-2">
+        <div class="flex justify-between items-center mb-6 border-b border-[#111] pb-4">
+           <h3 class="mono-font text-[10px] text-[#7a7a7a] tracking-widest uppercase">Smart_Provider_Fabric</h3>
+           <span class="mono-font text-[9px] text-[#555]">AUTO_ROUTING: ON</span>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse whitespace-nowrap">
+            <thead>
+              <tr class="border-b border-[#222]">
+                <th class="pb-3 text-[9px] text-[#555] font-normal mono-font w-1/3 uppercase">Provider_Node</th>
+                <th class="pb-3 text-[9px] text-[#555] font-normal mono-font uppercase">Health_State</th>
+                <th class="pb-3 text-[9px] text-[#555] font-normal mono-font text-right uppercase">Live_Latency</th>
+              </tr>
+            </thead>
+            <tbody class="text-[11px] font-mono">
+              <tr class="border-b border-[#111]">
+                <td class="py-4 text-[#ccc] flex items-center gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div> API_MAIN_ALPHA
+                </td>
+                <td class="py-4 text-[#10B981]">OPTIMAL</td>
+                <td class="py-4 text-[#888] text-right"><span id="p-lat-1">112</span>ms</td>
+              </tr>
+              <tr class="border-b border-[#111] transition-colors duration-500" id="node-b-row">
+                <td class="py-4 text-[#ccc] flex items-center gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" id="node-b-dot"></div> API_BULK_BETA
+                </td>
+                <td class="py-4 text-[#F59E0B]" id="node-b-state">DEGRADED</td>
+                <td class="py-4 text-[#F59E0B] text-right"><span id="p-lat-2">845</span>ms</td>
+              </tr>
+              <tr>
+                <td class="py-4 text-[#666] flex items-center gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div> API_FALLBACK_X
+                </td>
+                <td class="py-4 text-[#666]">STANDBY</td>
+                <td class="py-4 text-[#444] text-right">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AI Diagnostician -->
+      <div class="matte-card p-8 bg-[#030303]">
+        <div class="flex items-center gap-3 mb-6 border-b border-[#1a1a1a] pb-4">
+          <div class="w-1.5 h-1.5 bg-[#7C3AED] shadow-[0_0_8px_#7C3AED]"></div>
+          <h3 class="mono-font text-[10px] text-[#7a7a7a] tracking-widest uppercase">AI_Diagnostician</h3>
+        </div>
+        
+        <p class="text-[11px] text-[#666] font-light leading-relaxed mb-6">
+          LLM analysis of current queue depth, provider latency anomalies, and ledger drift.
         </p>
 
-        <div class="flex items-center gap-4 mono-font text-[9px] text-[#444]">
-          <span class="border border-[#1a1a1a] bg-[#050505] px-2 py-1 rounded">
-            BUILD: 8A7F9C2
-          </span>
+        <button id="ai-risk-btn" onclick="analyzeStackRisk()" class="w-full bg-[#0a0a0a] hover:bg-[#111] border border-[#222] text-[#ccc] text-[10px] font-mono py-3 rounded transition-colors mb-6">
+          > EXECUTE_ANALYSIS
+        </button>
 
-          <span class="border border-[#1a1a1a] bg-[#050505] px-2 py-1 rounded">
-            ENV: PRODUCTION
-          </span>
+        <div id="tech-ai-result" class="hidden border-l border-[#7C3AED] pl-4">
+          <div id="tech-ai-text" class="text-[10px] text-[#888] font-mono leading-relaxed uppercase"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TAB 4: VISUAL PROTOCOL                     -->
+  <!-- ========================================== -->
+  <section id="section-design" class="hidden env-switch space-y-8 mt-8">
+    <div class="matte-card p-12 lg:p-16">
+      
+      <div class="max-w-3xl mb-16">
+         <h2 class="text-3xl font-medium brand-font text-white mb-4">Design Protocol</h2>
+         <p class="text-[#888] text-[13px] font-light leading-relaxed">
+           Strict architectural rendering rules. Heavy emphasis on matte dark surfaces, extreme typographic legibility, hierarchy, and restraint. Glow is reserved entirely for state changes.
+         </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        
+        <div>
+          <h3 class="mono-font text-[10px] text-[#555] mb-8 pb-3 border-b border-[#111] uppercase tracking-widest">Surface_Tokens</h3>
+          <div class="space-y-6">
+            <div class="flex items-center justify-between border border-[#1a1a1a] p-4 rounded bg-[#000]">
+              <span class="text-xs text-[#888]">Background Base</span>
+              <span class="mono-font text-[10px] text-[#555]">#000000</span>
+            </div>
+            <div class="flex items-center justify-between border border-[#1a1a1a] p-4 rounded bg-[#050505]">
+              <span class="text-xs text-[#ccc]">Matte Card</span>
+              <span class="mono-font text-[10px] text-[#888]">#050505</span>
+            </div>
+            <div class="flex items-center justify-between border border-[#222] p-4 rounded bg-[#0a0a0a]">
+              <span class="text-xs text-[#fff]">Card Hover State</span>
+              <span class="mono-font text-[10px] text-[#ccc]">#0A0A0A</span>
+            </div>
+          </div>
         </div>
 
+        <div>
+          <h3 class="mono-font text-[10px] text-[#555] mb-8 pb-3 border-b border-[#111] uppercase tracking-widest">Typography_Hierarchy</h3>
+          <div class="space-y-12">
+            <div class="border-l border-[#333] pl-6">
+              <h1 class="text-[#ededed] text-3xl brand-font leading-none mb-3">Satoshi</h1>
+              <p class="text-[#888] text-[13px] font-light leading-relaxed">Headers & Display text. Provides structural architectural weight and premium branding.</p>
+            </div>
+            <div class="border-l border-[#333] pl-6">
+              <h1 class="text-[#ccc] text-xl font-sans leading-none mb-3">Inter</h1>
+              <p class="text-[#888] text-[13px] font-light leading-relaxed">Body copy and forms. Highly legible geometric sans for user interfaces.</p>
+            </div>
+            <div class="border-l border-[#7C3AED] pl-6">
+              <h1 class="text-[#888] text-lg font-mono leading-none mb-3">JetBrains Mono</h1>
+              <p class="text-[#666] text-[13px] font-light leading-relaxed">Telemetry, system labels, metrics, and code precision. Strictly uppercase.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========================================== -->
+<!-- SYSTEM TERMINAL FOOTER                     -->
+<!-- ========================================== -->
+<footer class="border-t border-[#1a1a1a] bg-[#020202] relative z-20 mt-20 pt-16 pb-12 opacity-0 transition-opacity duration-1000" id="main-footer">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-[#111] pb-12 mb-8">
+      
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <span class="brand-font text-[#ededed] font-bold text-xl tracking-tight">DOOB</span>
+        </div>
+        <p class="text-[#666] text-[11px] font-light mb-8">Creator Infrastructure Operating System</p>
+        
+        <div class="space-y-3 mono-font text-[10px] text-[#666]">
+          <div class="flex justify-between max-w-[220px]">
+             <span class="text-[#444]">CORE_VERSION</span><span class="text-[#ededed]">V2.4.1</span>
+          </div>
+          <div class="flex justify-between max-w-[220px]">
+             <span class="text-[#444]">NODE_REGION</span><span class="text-[#7C3AED]">BLR-01</span>
+          </div>
+          <div class="flex justify-between max-w-[220px]">
+             <span class="text-[#444]">STATUS</span>
+             <span class="text-[#10B981] flex items-center gap-2">STABLE <div class="w-1.5 h-1.5 bg-[#10B981] rounded-full data-pulse shadow-[0_0_5px_#10B981]"></div></span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="mono-font text-[10px] text-[#444] mb-8 uppercase tracking-widest">System_Modules</h4>
+        <ul class="space-y-4 mono-font text-[10px] text-[#7a7a7a]">
+          <li><span class="text-[#333]">></span> Core Runtime</li>
+          <li><span class="text-[#333]">></span> API Layer</li>
+          <li><span class="text-[#333]">></span> Queue Runtime</li>
+          <li><span class="text-[#333]">></span> Provider Fabric</li>
+          <li><span class="text-[#333]">></span> Ledger Engine</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="mono-font text-[10px] text-[#444] mb-8 uppercase tracking-widest">Live_Telemetry</h4>
+        <div class="space-y-4 mono-font text-[10px] text-[#7a7a7a]">
+          <div class="flex justify-between max-w-[240px] border-b border-[#111] pb-2">
+             <span class="text-[#555]">UPTIME</span><span class="text-[#ededed]">99.982%</span>
+          </div>
+          <div class="flex justify-between max-w-[240px] border-b border-[#111] pb-2">
+             <span class="text-[#555]">LATENCY</span><span class="text-[#ededed]"><span id="ft-latency">182</span>ms</span>
+          </div>
+          <div class="flex justify-between max-w-[240px] border-b border-[#111] pb-2">
+             <span class="text-[#555]">WORKERS</span><span class="text-[#ededed]" id="ft-workers">128</span>
+          </div>
+          <div class="flex justify-between max-w-[240px] border-b border-[#111] pb-2">
+             <span class="text-[#555]">QUEUE_STATE</span><span class="text-[#10B981]">HEALTHY</span>
+          </div>
+        </div>
       </div>
 
     </div>
 
-  </footer>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <p class="text-[#555] text-[11px] font-light italic border-l-2 border-[#222] pl-3">
+        "Abstracting creator growth infrastructure into a resilient orchestration layer."
+      </p>
+      <div class="flex items-center gap-4 mono-font text-[9px] text-[#444]">
+        <span class="border border-[#1a1a1a] bg-[#050505] px-2 py-1 rounded">BUILD: 8A7F9C2</span>
+        <span class="border border-[#1a1a1a] bg-[#050505] px-2 py-1 rounded">ENV: PRODUCTION</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#555] data-pulse"></span>
+      </div>
+    </div>
+  </div>
+</footer>
 
-  <script src="app.js"></script>
+<script>
+  // --- DOOB Motion Kinetics: Fluid Easing Interpolation ---
+  function animateValue(objId, start, end, duration) {
+      let obj = document.getElementById(objId);
+      if(!obj) return;
+      let startTimestamp = null;
+      const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease out
+          const current = Math.floor(easeProgress * (end - start) + start);
+          obj.innerText = current.toLocaleString();
+          if (progress < 1) window.requestAnimationFrame(step);
+          else obj.innerText = end.toLocaleString(); 
+      };
+      window.requestAnimationFrame(step);
+  }
 
+  // --- 1. Terminal Boot Sequence Engine ---
+  document.addEventListener("DOMContentLoaded", () => {
+    const bootLines = [
+      "> MOUNTING LEDGER DB...",
+      "> INITIATING QUEUE WORKERS [128]...",
+      "> PINGING PROVIDER FABRIC...",
+      "> OK. ENVIRONMENT READY."
+    ];
+    let bootContainer = document.getElementById('boot-text');
+    let delay = 400;
+    
+    bootLines.forEach((line, index) => {
+      setTimeout(() => {
+        let el = document.createElement('div');
+        el.innerText = line;
+        bootContainer.appendChild(el);
+      }, delay);
+      delay += 350 + (Math.random() * 200);
+    });
+
+    setTimeout(() => {
+      // Fade out overlay
+      const overlay = document.getElementById('boot-overlay');
+      overlay.style.opacity = '0';
+      overlay.style.transform = 'translateY(-20px)';
+      document.body.classList.remove('overflow-hidden');
+      
+      // Reveal UI with CSS transitions
+      document.getElementById('top-bar').style.opacity = '1';
+      document.getElementById('main-nav').style.opacity = '1';
+      document.getElementById('main-nav').style.transform = 'translateY(0)';
+      document.getElementById('main-content').style.opacity = '1';
+      document.getElementById('main-footer').style.opacity = '1';
+      
+      startTelemetry();
+    }, delay + 600);
+  });
+
+  // --- Global Config ---
+  Chart.defaults.color = '#555';
+  Chart.defaults.font.family = 'JetBrains Mono';
+  Chart.defaults.font.size = 9;
+  
+  const apiKey = "";
+  let chartData = [20, 22, 19, 25, 28, 26, 32, 38, 35, 45, 42, 50, 48];
+  let queueChartInstance = null;
+  
+  // Track states for fluid ticking
+  let isSpiking = false;
+  let isDegradedHard = false;
+  let curQps = 1402;
+  let curQpend = 1204;
+  let curLat = 182;
+  let curPlat1 = 112;
+  let curPlat2 = 845;
+  let curScaleExec = 412; // Reps the decimals of 2.xxx M
+
+  function startTelemetry() {
+    setInterval(() => {
+      const chance = Math.random();
+      
+      // Anomalies Generator
+      if(chance > 0.95 && !isSpiking) {
+         isSpiking = true;
+         document.getElementById('queue-warn')?.classList.remove('hidden');
+         document.getElementById('runtime-alert')?.classList.remove('hidden');
+         setTimeout(() => { 
+             isSpiking = false; 
+             document.getElementById('queue-warn')?.classList.add('hidden');
+             document.getElementById('runtime-alert')?.classList.add('hidden');
+         }, 5000);
+      }
+
+      if(chance < 0.05 && !isDegradedHard) {
+          isDegradedHard = true;
+          const nbRow = document.getElementById('node-b-row');
+          const nbDot = document.getElementById('node-b-dot');
+          const nbState = document.getElementById('node-b-state');
+          if(nbRow) {
+              nbDot.classList.replace('bg-[#F59E0B]', 'bg-[#EF4444]');
+              nbState.classList.replace('text-[#F59E0B]', 'text-[#EF4444]');
+              nbState.innerText = "CRITICAL";
+              nbRow.classList.add('err-flicker');
+          }
+          
+          const provDot = document.getElementById('scale-prov-dot');
+          const provState = document.getElementById('scale-prov-state');
+          if(provDot) provDot.classList.replace('status-amber', 'status-red');
+          if(provState) {
+              provState.classList.replace('text-[#F59E0B]', 'text-[#EF4444]');
+              provState.innerText = "CRITICAL FABRIC FAIL";
+          }
+
+          setTimeout(() => {
+              isDegradedHard = false;
+              if(nbRow) {
+                  nbDot.classList.replace('bg-[#EF4444]', 'bg-[#F59E0B]');
+                  nbState.classList.replace('text-[#EF4444]', 'text-[#F59E0B]');
+                  nbState.innerText = "DEGRADED";
+                  nbRow.classList.remove('err-flicker');
+              }
+              if(provDot) provDot.classList.replace('status-red', 'status-amber');
+              if(provState) {
+                  provState.classList.replace('text-[#EF4444]', 'text-[#F59E0B]');
+                  provState.innerText = "2 Degraded";
+              }
+          }, 6000);
+      }
+
+      // Timestamps
+      document.querySelectorAll('.sync-timer').forEach(el => {
+          el.innerText = Math.floor(Math.random() * 3) + 's ago';
+      });
+      const now = new Date();
+      const timeEl = document.getElementById('live-time');
+      if(timeEl) timeEl.innerText = now.toISOString().substring(11, 19) + ' UTC';
+
+      // Fluid Metric Interpolations
+      const nextQps = Math.floor(Math.random() * (1500 - 1300 + 1) + 1300) + (isSpiking ? 500 : 0);
+      animateValue('tel-qps', curQps, nextQps, 800);
+      curQps = nextQps;
+
+      const nextLat = Math.floor(Math.random() * (195 - 175 + 1) + 175);
+      animateValue('scale-latency', curLat, nextLat, 600);
+      animateValue('ft-latency', curLat, nextLat, 600);
+      curLat = nextLat;
+
+      const nextQpend = Math.floor(Math.random() * (1300 - 1100 + 1) + 1100) + (isSpiking ? 800 : 0);
+      animateValue('q-pending', curQpend, nextQpend, 800);
+      curQpend = nextQpend;
+
+      const nextPlat1 = Math.floor(Math.random() * (120 - 105 + 1) + 105);
+      animateValue('p-lat-1', curPlat1, nextPlat1, 500);
+      curPlat1 = nextPlat1;
+
+      let pLat2Base = isDegradedHard ? 1200 : 800;
+      const nextPlat2 = Math.floor(Math.random() * (pLat2Base+100 - pLat2Base + 1) + pLat2Base);
+      animateValue('p-lat-2', curPlat2, nextPlat2, 500);
+      curPlat2 = nextPlat2;
+      
+      const nextScaleExec = curScaleExec + Math.floor(Math.random() * 3);
+      animateValue('scale-exec', curScaleExec, nextScaleExec, 1000);
+      curScaleExec = nextScaleExec;
+
+      // Minor static ticks
+      const workers = Math.floor(Math.random() * (132 - 124 + 1) + 124);
+      const wEl = document.getElementById('tel-workers');
+      if(wEl) wEl.innerText = workers;
+      const ftWEl = document.getElementById('ft-workers');
+      if(ftWEl) ftWEl.innerText = workers;
+      
+      const holds = Math.floor(Math.random() * (155 - 135 + 1) + 135);
+      const hEl = document.getElementById('run-holds');
+      if(hEl) hEl.innerText = holds;
+      
+      const whLag = document.getElementById('wh-lag');
+      if(whLag) whLag.innerText = Math.floor(Math.random() * (18 - 8 + 1) + 8);
+
+      let failed = parseInt(document.getElementById('q-failed')?.innerText || 0);
+      if(chance > 0.9) {
+         const fEl = document.getElementById('q-failed');
+         if(fEl) fEl.innerText = failed + 1 > 12 ? 2 : failed + 1;
+      }
+
+      // Live Chart Update
+      if(queueChartInstance) {
+          chartData.shift();
+          let nextVal = Math.floor(Math.random() * (50 - 30 + 1) + 30);
+          if(isSpiking) nextVal += 40;
+          chartData.push(nextVal);
+          queueChartInstance.update('none'); // silent fluid update
+      }
+    }, 2000);
+  }
+
+  // --- AI API Integrations ---
+  async function fetchWithBackoff(prompt) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      systemInstruction: { parts: [{ text: "You are DOOB OS, an infrastructure diagnostic tool. Respond in very short, uppercase, plain text diagnostic logs. Max 15 words. Avoid full sentences. Use brackets for status." }] }
+    };
+    let retries = 5;
+    let delay = 1000;
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error(`HTTP error`);
+        const data = await response.json();
+        return data.candidates?.[0]?.content?.parts?.[0]?.text || "NO_OUTPUT";
+      } catch (error) {
+        if (i === retries - 1) throw error;
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2;
+      }
+    }
+  }
+
+  async function analyzeStackRisk() {
+    const btn = document.getElementById('ai-risk-btn');
+    const resultDiv = document.getElementById('tech-ai-result');
+    const textNode = document.getElementById('tech-ai-text');
+    
+    btn.disabled = true;
+    btn.innerHTML = `> EXECUTING...`;
+    resultDiv.classList.remove('hidden');
+    textNode.innerHTML = `[ QUERYING_ORCHESTRATOR_NODE... ]`;
+
+    const lat = curPlat2;
+    const isCrit = parseInt(lat) > 1000;
+    const prompt = `Assess routing health: Node API_BULK_BETA is at ${lat} latency. Immediate architectural action?`;
+
+    try {
+      let result = await fetchWithBackoff(prompt);
+      textNode.innerHTML = `> ${result.replace(/\*/g, '')}`;
+      if(isCrit) textNode.classList.add('text-[#EF4444]');
+      else textNode.classList.remove('text-[#EF4444]');
+    } catch (error) {
+      textNode.innerHTML = `[ERR] CONNECTION_REFUSED`;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `> RE_EXECUTE_ANALYSIS`;
+    }
+  }
+
+  // --- Environment Navigation Logic ---
+  function switchTab(tabId) {
+    const tabs = ['core', 'domains', 'runtime', 'design'];
+    tabs.forEach(t => {
+      const section = document.getElementById('section-' + t);
+      section.classList.add('hidden');
+      section.classList.remove('env-switch'); // Reset animation state
+      
+      const tabEl = document.getElementById('tab-' + t);
+      tabEl.classList.remove('tab-active');
+      tabEl.classList.add('text-[#666]');
+      if(t==='runtime') tabEl.classList.remove('text-white');
+    });
+
+    const activeSection = document.getElementById('section-' + tabId);
+    activeSection.classList.remove('hidden');
+    void activeSection.offsetWidth; // Force reflow
+    activeSection.classList.add('env-switch');
+    
+    const activeTabEl = document.getElementById('tab-' + tabId);
+    activeTabEl.classList.add('tab-active');
+    activeTabEl.classList.remove('text-[#666]');
+    
+    if(tabId === 'runtime' && !queueChartInstance) { initQueueChart(); }
+  }
+
+  const domainData = {
+    public: {
+      title: 'Public SaaS', url: 'doob.cloud', rate: '100/min', auth: 'Sanctum', origin: 'doob.cloud',
+      audience: 'Creators, artists, influencers, brands, and traditional businesses.',
+      vibe: 'Premium creator growth OS. High whitespace, beautiful campaign flows, big analytics charts.',
+      terms: ['Campaigns', 'Growth Boosts']
+    },
+    reseller: {
+      title: 'Reseller Infra', url: 'partners.doob.cloud', rate: '1000/min', auth: 'API Key', origin: 'partners.*',
+      audience: 'Volume buyers, agency owners, and existing platform operators.',
+      vibe: 'Professional Trading Terminal. Data-dense, keyboard shortcuts, tabular layouts.',
+      terms: ['Mass Order', 'Service IDs']
+    },
+    admin: {
+      title: 'Admin Control', url: 'admin.doob.cloud', rate: 'None', auth: 'MFA/IP', origin: 'admin.*',
+      audience: 'Internal staff, system operators, and financial controllers.',
+      vibe: 'Mission Control / Routing Engine. Real-time graphs, raw JSON payloads.',
+      terms: ['Overrides', 'Exceptions']
+    },
+    api: {
+      title: 'API Layer', url: 'api.doob.cloud', rate: 'Tiered', auth: 'Bearer', origin: 'api.*',
+      audience: 'External developers and internal machine-to-machine communication.',
+      vibe: 'Strict, RESTful, highly performant JSON responses. Headless.',
+      terms: ['Endpoints', 'Webhooks']
+    }
+  };
+
+  function selectDomain(key) {
+    document.querySelectorAll('.domain-card').forEach(el => {
+      el.classList.remove('active', 'bg-[#080808]', 'border-[#222]');
+      el.classList.add('border-transparent');
+      const header = el.querySelector('h4');
+      if(header) { header.classList.remove('text-[#ededed]'); header.classList.add('text-[#888]'); }
+      const indicator = el.querySelector('.indicator');
+      if(indicator) { indicator.classList.replace('bg-white', 'bg-transparent'); }
+    });
+    
+    const activeCard = document.getElementById('card-' + key);
+    if (activeCard) {
+        activeCard.classList.remove('border-transparent');
+        activeCard.classList.add('active', 'bg-[#080808]', 'border-[#222]');
+        const header = activeCard.querySelector('h4');
+        if(header) { header.classList.remove('text-[#888]'); header.classList.add('text-[#ededed]'); }
+        const indicator = activeCard.querySelector('.indicator');
+        if(indicator) { indicator.classList.replace('bg-transparent', 'bg-white'); }
+    }
+
+    const data = domainData[key];
+    document.getElementById('detail-title').innerText = data.title;
+    document.getElementById('detail-url').innerText = `https://${data.url}`;
+    document.getElementById('detail-rate').innerText = data.rate;
+    document.getElementById('detail-auth').innerText = data.auth;
+    document.getElementById('detail-audience').innerText = data.audience;
+    document.getElementById('detail-vibe').innerText = data.vibe;
+    document.getElementById('traj-origin').innerText = data.origin;
+    
+    const termsContainer = document.getElementById('detail-terms');
+    termsContainer.innerHTML = '';
+    data.terms.forEach(term => {
+      const span = document.createElement('span');
+      span.className = 'bg-[#000] border border-[#222] px-3 py-1.5 rounded text-[10px] text-[#7a7a7a] mono-font';
+      span.innerText = term;
+      termsContainer.appendChild(span);
+    });
+  }
+
+  function initQueueChart() {
+    const canvas = document.getElementById('queueChart');
+    if (canvas) {
+        queueChartInstance = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['','','','','','','','','','','','',''],
+            datasets: [{
+              data: chartData,
+              borderColor: '#3B82F6',
+              backgroundColor: 'rgba(59,130,246,0.05)',
+              borderWidth: 1.5,
+              tension: 0.4,
+              pointRadius: 0,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+              x: { display: false },
+              y: { 
+                  display: true, border: { display: false },
+                  grid: { color: '#111' }, ticks: { maxTicksLimit: 5, color: '#555' }
+              }
+            },
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            animation: { duration: 400, easing: 'linear' } // Smooth linear queue flow
+          }
+        });
+    }
+  }
+</script>
 </body>
 </html>
